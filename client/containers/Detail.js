@@ -88,7 +88,7 @@ class Detail extends Component {
                     </div>
                     { isEmpty
                         ? (isRepoFetching ? <h2 className="title">Loading...</h2> : <h2>No Users.</h2>)
-                        : <div style={{ opacity: isRepoFetching ? 0.5 : 1 }}>
+                        : <div>
                             <Repos repos={repos} />
                         </div>
                     }
