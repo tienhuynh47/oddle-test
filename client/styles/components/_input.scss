@@ -1,0 +1,49 @@
+.input {
+    border: 1px solid $grey-4;
+    border-radius: 4px;
+    line-height: 1;
+    height: 3em;
+    padding: 0.2em 0.5em;
+    transition: all 0.4s ease;
+    margin: 1em;
+    width: 14em;
+    font-size: 0.8em;
+
+    &:focus,
+    &:active {
+        border-color: $blue;
+        outline: none;
+    }
+}
+
+.search-btn {
+    height: 3.5em;
+    width: 3.5em;
+    border: none;
+    background-color: $blue;
+    color: $white;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $blue-1;
+    }
+
+    i {
+        font-size: 1.2em;
+    }
+}
+
+.back-btn {
+    padding: 1em 1.5em;
+    margin-left: 0.5em;
+    background: $white;
+    text-decoration: none;
+    display: inline-block;
+    line-height: 1;
+    color: rgba($black, .6);
+    font-weight: 400;
+    border-radius: 4px;
+    text-transform: none;
+    box-shadow: 0 0 0 1px rgba(34,36,38,.15) inset;
+}

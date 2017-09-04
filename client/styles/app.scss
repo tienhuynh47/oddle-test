@@ -1,0 +1,25 @@
+@import "/components/variables";
+@import "/components/grid";
+@import "/components/card";
+@import "/components/input";
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: rgba($grey-1, 0.87);
+    background-color: $grey;
+}
+
+.container {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+
+    .title {
+        margin-left: 0.5em;
+    }
+}
+
+
+.detail {
+    margin-top: 1em;
+}

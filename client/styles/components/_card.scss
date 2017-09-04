@@ -1,0 +1,153 @@
+.card {
+    min-height: 10em;
+    margin: 0 15px;
+    position: relative;
+    background-color: $white;
+    border: 1px solid $grey-3;
+    border-radius: 8px;
+    border: 1px solid rgba(62, 67, 98, 0.11);
+    box-shadow: 0px 3px 4px 0px rgba($black, 0.1);
+    text-align: center;
+
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .card-left {
+        width: 40%;
+        float: left;
+
+        @media (max-width: 961px) {
+            width: 100%;
+        }
+
+        img {
+            height: 18em;
+            border: 1px solid $grey-4;
+        }
+    }
+
+    .card-right {
+        padding: 2em 0;
+        width: 55%;
+        float: left;
+        text-align: left;
+
+        @media (max-width: 961px) {
+            width: 100%;
+            border-left: none;
+        }
+
+        .card-content {
+            padding: 0 2em;
+            min-height: 25em;
+            border-left: 1px solid $grey-4;
+
+            a {
+                color: #00b5ad;
+            }
+        }
+    }
+
+    .card-image {
+        height: 12em;
+        position: relative;
+
+        &:hover {
+            &::before,
+            &::after {
+                opacity: 1;
+                height: 4em;
+            }
+
+            .hover {
+                &::after,
+                .hover-placeholder {
+                    opacity: 1;
+                }
+            }
+        }
+
+        &::before,
+        &::after {
+            content: "1";
+            opacity: 0;
+            height: 0;
+            width: 1px;
+            position: absolute;
+            background: $white;
+            z-index: 3;
+            transform: rotate(45deg);
+            transition: all 0.4s ease;
+        }
+
+        &::before {
+            top: 1.5em;
+            right: 5.5em;
+        }
+
+        &::after {
+            bottom: 1.5em;
+            left: 5.5em;
+        }
+
+        .hover {
+            height: 100%;
+            position: relative;
+
+            &::after {
+                content: "View User";
+                opacity: 0;
+                color: $white;
+                font-size: 1.2em;
+                letter-spacing: 0.2px;
+                font-weight: 500;
+                margin-top: -12px;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                right: 0;
+                text-align: center;
+                z-index: 3;
+                transition: all 0.4s ease;
+            }
+
+            .hover-placeholder {
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba($black, 0.4);
+                z-index: 2;
+                transition: all 0.4s ease;
+            }
+        }
+
+        .avatar {
+            border-radius: 8px 8px 0 0;
+            width: 100%;
+            height: 12em;
+        }
+    }
+
+    .card-content {
+        .title {
+            color: rgba($grey-2, 0.88);
+            margin: 0.4em 0;
+            font-weight: 400;
+        }
+    }
+}
