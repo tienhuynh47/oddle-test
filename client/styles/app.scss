@@ -19,7 +19,30 @@ body {
     }
 }
 
-
 .detail {
     margin-top: 1em;
+}
+
+.repos-container {
+    margin-top: 1em;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.red {
+    color: $red;
+}
+
+.yellow {
+    color: $yellow;
+}
+
+.blue {
+    color: $blue-2;
 }

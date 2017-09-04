@@ -53,7 +53,7 @@ class App extends Component {
                             </div>
                         }
                     </div>
-                    : <Route path="/:id" component={Detail}/>
+                    : <Route path="/:login" component={Detail}/>
                 }
             </div>
         )

@@ -7,7 +7,7 @@ const Users = ({users, onClick}) => (
         {users.map((user, i) =>
             <div className="col" key={i}>
                 <div className="card">
-                    <Link to={'/' + user.id} onClick={(e) => onClick(user)}>
+                    <Link to={'/' + user.login} onClick={(e) => onClick(user)}>
                         <div className="card-image">
                             <div className="hover">
                                 <div className="hover-placeholder"></div>

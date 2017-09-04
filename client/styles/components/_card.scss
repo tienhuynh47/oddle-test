@@ -51,7 +51,7 @@
 
         .card-content {
             padding: 0 2em;
-            min-height: 25em;
+            min-height: 20em;
             border-left: 1px solid $grey-4;
 
             a {
@@ -144,10 +144,27 @@
     }
 
     .card-content {
+        padding: 0 1em;
+        text-align: left;
+
         .title {
             color: rgba($grey-2, 0.88);
             margin: 0.4em 0;
             font-weight: 400;
+
+            a {
+                &:hover {
+                    color: $blue-1;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .description {
+            height: 2em;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
     }
 }

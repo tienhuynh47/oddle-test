@@ -13,4 +13,19 @@
             width: 100%;
         }
     }
+
+    .col-3 {
+        width: 33.33%;
+        float: left;
+        position: relative;
+        padding: 1em 0;
+
+        @media (max-width: 961px) {
+            width: 50%;
+        }
+
+        @media (max-width: 481px) {
+            width: 100%;
+        }
+    }
 }

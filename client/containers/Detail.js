@@ -1,123 +1,125 @@
-import React from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { selectRepo, fetchReposIfNeeded } from '../actions/repo'
 import { Link } from 'react-router-dom'
+import Repos from '../components/Repos'
 
-const Detail = ({ match, dispatch, users, userDetail }) => {
+class Detail extends Component {
 
-    let user = userDetail || {
-        url: '',
-        html_url: '',
-        followers_url: '',
-        following_url: '',
-        gists_url: '',
-        starred_url: '',
-        subscriptions_url: '',
-        organizations_url: '',
-        repos_url: '',
-        events_url: '',
-        received_events_url: ''
-    }
-    let filterUsers = []
-    if (Object.keys(user).length === 0) {
-        filterUsers = users.filter((user) => {
-            return Number(user.id) === Number(match.params.id)
-        })
-        user = filterUsers.length > 0 ? filterUsers[0] : {
+    constructor() {
+        super()
+        this.user = {
             url: '',
-            html_url: '',
-            followers_url: '',
-            following_url: '',
             gists_url: '',
-            starred_url: '',
-            subscriptions_url: '',
-            organizations_url: '',
-            repos_url: '',
-            events_url: '',
-            received_events_url: ''
+            repos_url: ''
+        }
+        this.filterUsers = []
+    }
+
+    static propTypes = {
+        match: PropTypes.object.isRequired,
+        users: PropTypes.array.isRequired,
+        userDetail: PropTypes.object.isRequired,
+        githubRepos: PropTypes.object.isRequired
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (Object.keys(nextProps.userDetail).length === 0 && !this.user.url && nextProps.users.length > 0) {
+            this.filterUsers = nextProps.users.filter((user) => {
+                return user.login === this.props.match.params.login
+            })
+            this.user = this.filterUsers.length > 0 ? this.filterUsers[0] : {
+                url: '',
+                gists_url: '',
+                repos_url: ''
+            }
+            this.props.dispatch(fetchReposIfNeeded(this.user.login))
         }
     }
 
-    const onBack = () => {
-        dispatch(selectUserDetail({}))
+    componentDidMount() {
+        if (Object.keys(this.props.userDetail).length > 0) {
+            this.props.dispatch(fetchReposIfNeeded(this.props.userDetail.login))
+        }
     }
-    return (
-        <div>
-            <Link to="/" className="back-btn" onClick={onBack}><i className="fa fa-arrow-left" aria-hidden="true"></i> Back</Link>
-            <div className="detail">
-                <div className="card">
-                    <div className="card-left">
-                        <h3>{user.login}</h3>
-                        <img className="avatar" src={user.avatar_url} />
-                        <p>
-                            Id: {user.id}
-                        </p>
-                        <p>
-                            Type: {user.type}
-                        </p>
-                        <p>
-                            Site Admin: {user.site_admin ? 'Yes' : 'No'}
-                        </p>
-                        <p>
-                            Score: {user.score}
-                        </p>
-                    </div>
-                    <div className="card-right">
-                        <div className="card-content">
-                            <p>
-                                Url: <Link target="_blank" to={user.url}>{user.url}</Link>
-                            </p>
-                            <p>
-                                Html Url: <Link target="_blank" to={user.html_url}>{user.html_url}</Link>
-                            </p>
-                            <p>
-                                Followers Url: <Link target="_blank" to={user.followers_url}>{user.followers_url}</Link>
-                            </p>
-                            <p>
-                                Following Url: <Link target="_blank" to={user.following_url}>{user.following_url}</Link>
-                            </p>
-                            <p>
-                                Gists Url: <Link target="_blank" to={user.gists_url}>{user.gists_url}</Link>
-                            </p>
-                            <p>
-                                Starred Url: <Link target="_blank" to={user.starred_url}>{user.starred_url}</Link>
-                            </p>
-                            <p>
-                                Subscriptions Url: <Link target="_blank" to={user.subscriptions_url}>{user.subscriptions_url}</Link>
-                            </p>
-                            <p>
-                                Organizations Url: <Link target="_blank" to={user.organizations_url}>{user.organizations_url}</Link>
-                            </p>
-                            <p>
-                                Repos Url: <Link target="_blank" to={user.repos_url}>{user.repos_url}</Link>
-                            </p>
-                            <p>
-                                Events Url: <Link target="_blank" to={user.events_url}>{user.events_url}</Link>
-                            </p>
-                            <p>
-                                Received_events Url: <Link target="_blank" to={user.received_events_url}>{user.received_events_url}</Link>
-                            </p>
+
+    onBack = () => {
+        this.props.dispatch(selectUserDetail({}))
+    }
+
+    render() {
+        const { match, users, userDetail, githubRepos, isRepoFetching } = this.props
+        const user = Object.keys(userDetail).length === 0 ? this.user : userDetail
+        const repos = githubRepos[user.login] ? githubRepos[user.login].items : []
+        const isEmpty = repos.length === 0
+
+        return (
+            <div>
+                <Link to="/" className="back-btn" onClick={this.onBack}><i className="fa fa-arrow-left" aria-hidden="true"></i> Back</Link>
+                <div className="detail">
+                    <div className="card">
+                        <div className="card-left">
+                            <h3>{user.login}</h3>
+                            <img className="avatar" src={user.avatar_url} />
+                        </div>
+                        <div className="card-right">
+                            <div className="card-content">
+                                <p>
+                                    Id: {user.id}
+                                </p>
+                                <p>
+                                    Type: {user.type}
+                                </p>
+                                <p>
+                                    Score: {user.score}
+                                </p>
+                                <p>
+                                    Url: <Link target="_blank" to={user.url}>{user.url}</Link>
+                                </p>
+                                <p>
+                                    Gists Url: <Link target="_blank" to={user.gists_url}>{user.gists_url}</Link>
+                                </p>
+                                <p>
+                                    Repos Url: <Link target="_blank" to={user.repos_url}>{user.repos_url}</Link>
+                                </p>
+                            </div>
                         </div>
                     </div>
+                    { isEmpty
+                        ? (isRepoFetching ? <h2 className="title">Loading...</h2> : <h2>No Users.</h2>)
+                        : <div style={{ opacity: isRepoFetching ? 0.5 : 1 }}>
+                            <Repos repos={repos} />
+                        </div>
+                    }
+
                 </div>
             </div>
-        </div>
-
-    )
+        )
+    }
 }
 
 const mapStateToProps = state => {
     const { githubUsers, selectedUser, userDetail } = state
     const {
-        isFetching,
         items: users
     } = githubUsers[selectedUser] || {
-        isFetching: true,
         items: []
+    }
+
+    const { githubRepos, selectedRepo } = state
+
+    const {
+        isRepoFetching,
+    } = githubRepos[selectedRepo] || {
+        isRepoFetching: true,
     }
 
     return {
         users,
-        userDetail
+        userDetail,
+        githubRepos,
+        isRepoFetching
     }
 }
 
