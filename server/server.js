@@ -25,6 +25,13 @@ const compiler = webpack(webpackConfig)
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }))
 app.use(webpackHotMiddleware(compiler))
 
+app.use(Express.static('www', { maxAge: 3600000 }));
+app.get('*.js', function (req, res, next) {
+    req.url = req.url + '.gz';
+    res.set('Content-Encoding', 'gzip');
+    next();
+})
+
 const handleRender = (req, res) => {
     // Create a new Redux store instance
     const context = {}
@@ -52,6 +59,7 @@ const renderFullPage = (html, preloadedState) => {
         <html>
             <head>
                 <title>Oddle Test</title>
+                <meta http-equiv="Cache-control" content="public">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
             	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
                 <link rel="stylesheet" type="text/css" href="/static/app.css">

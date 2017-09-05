@@ -3,6 +3,7 @@ var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+var CompressionPlugin = require('compression-webpack-plugin')
 
 module.exports = {
     devtool: 'inline-source-map',
@@ -22,7 +23,14 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new UglifyJSPlugin(),
         new ExtractTextPlugin('app.css'),
-        new OptimizeCssAssetsPlugin()
+        new OptimizeCssAssetsPlugin(),
+        new CompressionPlugin({
+            asset: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.js$|\.css$|\.html$/,
+            threshold: 10240,
+            minRatio: 0.8
+        })
     ],
     module: {
         rules: [{
