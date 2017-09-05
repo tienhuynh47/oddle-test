@@ -1,6 +1,8 @@
 var path = require('path')
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+var UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
     devtool: 'inline-source-map',
@@ -14,8 +16,13 @@ module.exports = {
         publicPath: '/static/'
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        }),
         new webpack.HotModuleReplacementPlugin(),
-        new ExtractTextPlugin('app.css')
+        new UglifyJSPlugin(),
+        new ExtractTextPlugin('app.css'),
+        new OptimizeCssAssetsPlugin()
     ],
     module: {
         rules: [{
